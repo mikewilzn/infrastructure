@@ -2,6 +2,5 @@
   roles:
     - role: geerlingguy.docker
       become: true
-      become_method: community.general.doas
       vars:
-        docker_users: "{{ user }}"
+        docker_users: "{{ primary_user }}"
