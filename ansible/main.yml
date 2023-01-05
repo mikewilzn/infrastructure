@@ -1,14 +1,10 @@
-- hosts:
-  - pve-docker
+- hosts: pve
   roles:
-    - role: geerlingguy.ntp
-      become: true
-      vars:
-        - ntp_timezone: "{{ timezone }}"
-        - ntp_manage_config: true
-
-
+    - role: ironicbadger.proxmox_nag_removal
+      
 - hosts: pve-docker
   roles:
     - role: geerlingguy.docker
       become: true
+      vars:
+        docker_users: "{{ primary_user }}"

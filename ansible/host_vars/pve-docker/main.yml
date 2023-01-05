@@ -1,1 +1,7 @@
 ansible_become_method: community.general.doas
+
+# Docker
+docker_compose_version: 3.9
+docker_user: "{{ primary_user }}"
+
+install_directory: /srv

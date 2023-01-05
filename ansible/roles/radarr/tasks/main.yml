@@ -1,0 +1,7 @@
+- name: Create install directory
+  file:
+    path: "{{ install_directory }}/radarr"
+    state: directory
+    owner: "{{ docker_user }}"
+    mode: "{{ docker_compose_directory_mask }}"
+  become: true

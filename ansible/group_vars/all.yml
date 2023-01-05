@@ -1,8 +1,11 @@
 # Main user defaults
-primary_user: mike
+primary_user: "mike"
 primary_group: "{{ primary_user }}"
 primary_uid: "1000"
 primary_gid: "{{ primary_uid }}"
 
 # System defaults
 timezone: "America/New_York"
+
+# Globals
+personal_domain: "mjwilson.org"
