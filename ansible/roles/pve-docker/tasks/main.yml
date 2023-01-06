@@ -1,0 +1,8 @@
+- name: Install basic packages
+  package:
+    name: "{{ item }}"
+    become: true
+    loop:
+      - vim
+      - doas
+      - git
