@@ -13,7 +13,7 @@ services:
       - traefik
     environment:
       - PUID={{ primary_uid }}
-      - PGID={{ primary_gid }}
+      - PGID={{ media_gid }}
       - TZ={{ timezone }}
     volumes:
       - "{{ data_dir }}/radarr:/config"

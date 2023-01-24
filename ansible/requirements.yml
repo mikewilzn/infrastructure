@@ -1,3 +1,4 @@
 roles:
   - src: geerlingguy.docker
   - src: geerlingguy.ntp
+  - src: ironicbadger.proxmox_nag_removal

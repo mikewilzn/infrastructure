@@ -1,0 +1,6 @@
+- name: Remove Proxmox nag banner
+  import_role:
+    name: ironicbadger.proxmox_nag_removal
+
+- name: Configure media share permissions
+  include_tasks: media-share.yml

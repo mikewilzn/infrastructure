@@ -3,5 +3,6 @@ ansible_become_method: community.general.doas
 # Docker
 docker_compose_version: 3.9
 docker_user: "{{ primary_user }}"
-
+docker_compose_directory_mask: 0775
+docker_compose_file_mask: 0664
 install_directory: /srv
