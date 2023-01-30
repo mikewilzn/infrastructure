@@ -3,15 +3,14 @@
     name: media
     system: true
     state: present
-    register: media_gid
-  become: true
+  register: media_gid
 
 - name: Set media directory permissions
   ansible.builtin.file:
-    path: "{{ mergerfs_mountpoint }}/data"
+    path: "{{ media_storage_mnt }}/data"
     state: directory
-    owner: {{ primary_gid }}
-    group: {{ media_gid }}
+    owner: "{{ primary_gid }}"
+    group: media
     mode: 0775
     recurse: yes
   become: true

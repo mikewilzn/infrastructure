@@ -1,10 +1,8 @@
 - hosts: pve
   roles:
     - pve
-      
+
 - hosts: pve-docker
   roles:
-    - role: geerlingguy.docker
-      become: true
-      vars:
-        docker_users: "{{ primary_user }}"
+    - docker-compose
+  become: true
