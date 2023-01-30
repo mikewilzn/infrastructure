@@ -1,9 +1,9 @@
 - name: Create media group
   ansible.builtin.group:
     name: media
+    gid: 997
     system: true
     state: present
-  register: media_gid
 
 - name: Set media directory permissions
   ansible.builtin.file:

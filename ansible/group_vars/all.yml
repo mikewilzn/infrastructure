@@ -9,3 +9,5 @@ timezone: "America/New_York"
 
 # Globals
 personal_domain: "mjwilson.org"
+
+data_dir: "/mnt/tank/appdata"

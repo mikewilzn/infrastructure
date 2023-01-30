@@ -1,0 +1,24 @@
+version: "{{ docker_compose_version }}"
+
+networks:
+  traefik:
+    external: true
+
+services:
+  prowlarr:
+    container_name: prowlarr
+    image: lscr.io/linuxserver/prowlarr:latest
+    restart: unless-stopped
+    networks:
+      - traefik
+    environment:
+      - PUID={{ primary_uid }}
+      - PGID={{ media_gid }}
+      - TZ={{ timezone }}
+    volumes:
+      - "{{ data_dir }}/prowlarr:/config"
+      - "{{ media_storage_mnt }}/data:/data"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.prowlarr.rule: "Host(`prowlarr.local.{{ personal_domain }}`)"
+      traefik.http.routers.prowlarr.middlewares: lan-whitelist@file

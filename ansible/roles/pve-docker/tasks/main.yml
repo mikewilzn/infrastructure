@@ -1,8 +1,8 @@
 - name: Install basic packages
-  package:
+  ansible.builtin.package:
     name: "{{ item }}"
-    become: true
-    loop:
-      - vim
-      - doas
-      - git
+  loop:
+    - vim
+    - doas
+    - git
+  become: true

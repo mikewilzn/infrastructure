@@ -4,5 +4,8 @@
 
 - hosts: pve-docker
   roles:
+    - pve-docker
     - docker-compose
-  become: true
+    - prowlarr
+    - sonarr
+    - radarr
