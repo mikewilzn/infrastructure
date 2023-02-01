@@ -14,6 +14,7 @@ services:
       - PUID={{ primary_uid }}
       - PGID={{ media_gid }}
       - TZ={{ timezone }}
+      - DOCKER_MODS=arafatamim/linuxserver-io-mod-vuetorrent
     volumes:
       - "{{ data_dir }}/qbittorrent:/config"
       - "{{ media_storage_mnt }}/data/torrents:/downloads"

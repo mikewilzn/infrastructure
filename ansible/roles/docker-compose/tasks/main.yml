@@ -19,3 +19,7 @@
   ansible.builtin.package:
     name: docker-compose
     state: present
+
+- name: Create Traefik docker network
+  community.docker.docker_network:
+    name: traefik
