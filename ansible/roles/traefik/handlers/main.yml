@@ -1,0 +1,4 @@
+- name: Restart Traefik
+  community.docker.docker_compose:
+    project_src: "{{ install_directory }}/traefik"
+    restarted: true

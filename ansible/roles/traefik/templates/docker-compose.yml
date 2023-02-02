@@ -1,0 +1,26 @@
+version: "{{ docker_compose_version }}"
+
+networks:
+  traefik:
+    external: true
+
+services:
+  traefik:
+    container_name: traefik
+    image: traefik:latest
+    networks:
+      - traefik
+      - docker-socket-proxy
+    ports:
+      - 80:80 # HTTP
+      - 443:443 # HTTPS
+    environment:
+      PORKBUN_API_KEY: "{{ porkbun_api_key }}"
+      PORKBUN_SECRET_API_KEY: "{{ porkbun_secret_api_key }}"
+    volumes:
+      - "{{ data_dir }}/traefik:/etc/traefik"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.traefik-dashboard.rule: "Host(`traefik.local.{{ personal_domain }}`)"
+      traefik.http.routers.traefik-dashboard.service: api@internal
+      traefik.http.routers.traefik-dashboard.middlewares: lan-whitelist@file
