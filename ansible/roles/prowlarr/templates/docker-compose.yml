@@ -5,20 +5,20 @@ networks:
     external: true
 
 services:
-  prowlarr:
-    container_name: prowlarr
+  {{ role_name }}:
+    container_name: "{{ role_name }}"
     image: lscr.io/linuxserver/prowlarr:latest
     restart: unless-stopped
     networks:
       - traefik
     environment:
-      - PUID={{ primary_uid }}
-      - PGID={{ media_gid }}
-      - TZ={{ timezone }}
+      - "PUID={{ service_user.uid }}"
+      - "PGID={{ media_gid }}"
+      - "TZ={{ timezone }}"
     volumes:
-      - "{{ data_dir }}/prowlarr:/config"
+      - "{{ data_dir }}/{{ role_name }}:/config"
       - "{{ media_storage_mnt }}/data:/data"
     labels:
       traefik.enable: true
-      traefik.http.routers.prowlarr.rule: "Host(`prowlarr.local.{{ personal_domain }}`)"
-      traefik.http.routers.prowlarr.middlewares: lan-whitelist@file
+      traefik.http.routers.{{ role_name }}.rule: "Host(`{{ role_name }}.local.{{ personal_domain }}`)"
+      traefik.http.routers.{{ role_name }}.middlewares: lan-whitelist@file

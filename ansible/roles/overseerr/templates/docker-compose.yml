@@ -5,18 +5,18 @@ networks:
     external: true
 
 services:
-  overseerr:
-    container_name: overseerr
+  {{ role_name }}:
+    container_name: "{{ role_name }}"
     image: lscr.io/linuxserver/overseerr:latest
     restart: unless-stopped
     networks:
       - traefik
     environment:
-      - PUID={{ primary_uid }}
-      - PGID={{ primary_gid }}
-      - TZ={{ timezone }}
+      - "PUID={{ service_user.uid }}"
+      - "PGID={{ service_user.uid }}"
+      - "TZ={{ timezone }}"
     volumes:
-      - "{{ data_dir }}/overseerr:/config"
+      - "{{ data_dir }}/{{ role_name }}:/config"
     labels:
       traefik.enable: true
-      traefik.http.routers.overseerr.rule: "Host(`overseerr.{{ personal_domain }}`)"
+      traefik.http.routers.{{ role_name }}.rule: "Host(`{{ role_name }}.{{ personal_domain }}`)"

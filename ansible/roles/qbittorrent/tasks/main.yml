@@ -1,6 +1,14 @@
+- name: Create service user
+  user:
+    name: "{{ role_name }}"
+    groups: "{{ media_group }}"
+    append: yes
+  register: service_user
+  become: true
+
 - name: Create install directory
   file:
-    path: "{{ install_directory }}/radarr"
+    path: "{{ install_directory }}/{{ role_name }}"
     state: directory
     owner: "{{ docker_user }}"
     mode: "{{ docker_compose_directory_mask }}"
@@ -9,13 +17,13 @@
 - name: Copy docker-compose file to destination
   template:
     src: docker-compose.yml
-    dest: "{{ install_directory }}/radarr/docker-compose.yml"
+    dest: "{{ install_directory }}/{{ role_name }}/docker-compose.yml"
     mode: "{{ docker_compose_file_mask }}"
     validate: docker-compose -f %s config
   become: true
 
 - name: Start docker container
   community.docker.docker_compose:
-    project_src: "{{ install_directory }}/radarr"
+    project_src: "{{ install_directory }}/{{ role_name }}"
     pull: true
     remove_orphans: yes

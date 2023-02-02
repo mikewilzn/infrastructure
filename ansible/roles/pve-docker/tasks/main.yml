@@ -1,8 +1,6 @@
-- name: Install basic packages
-  ansible.builtin.package:
-    name: "{{ item }}"
-  loop:
-    - vim
-    - doas
-    - git
+- name: Create media group
+  group:
+    name: "{{ media_group }}"
+    gid: "{{ media_gid }}"
+    state: present
   become: true

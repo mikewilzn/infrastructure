@@ -1,2 +1,3 @@
 media_storage_mnt: /mnt/storage
+media_group: media
 media_gid: 997
