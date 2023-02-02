@@ -6,7 +6,9 @@
   roles:
     - pve-docker
     - docker-compose
+    - traefik
     - prowlarr
     - sonarr
     - radarr
+    - qbittorrent
     - ntfy
