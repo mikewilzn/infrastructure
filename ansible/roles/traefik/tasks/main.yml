@@ -1,0 +1,42 @@
+- name: Create docker network for Traefik
+  community.docker.docker_network:
+    name: traefik
+
+- name: Create install directory
+  file:
+    path: "{{ install_directory }}/traefik"
+    state: directory
+    owner: "{{ docker_user }}"
+    mode: "{{ docker_compose_directory_mask }}"
+  become: true
+
+- name: Copy docker-compose file to destination
+  template:
+    src: docker-compose.yml
+    dest: "{{ install_directory}}/traefik/docker-compose.yml"
+    mode: "{{ docker_compose_file_mask }}"
+    validate: docker-compose -f %s config
+  become: true
+
+- name: Start docker container
+  community.docker.docker_compose:
+    project_src: "{{ install_directory }}/traefik"
+    pull: true
+    remove_orphans: yes
+
+- name: Install config
+  template:
+    src: traefik.yml
+    dest: "{{ data_dir }}/traefik/traefik.yml"
+    mode: "{{ docker_compose_file_mask }}"
+    owner: "{{ primary_user }}"
+  notify: restart traefik
+  become: true
+
+- name: Create file provider directory
+  file:
+    path: "{{ data_dir }}/traefik/conf"
+    state: directory
+    mode: "{{ docker_compose_directory_mask }}"
+    owner: "{{ primary_user }}"
+  become: true

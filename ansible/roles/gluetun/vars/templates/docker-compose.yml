@@ -1,0 +1,31 @@
+version: "3"
+
+networks:
+  traefik:
+    external: true
+
+services:
+  gluetun:
+    container_name: gluetun
+    image: qmcgaw/gluetun
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    networks:
+      - traefik
+    ports:
+      - 8888:8888 # HTTP Proxy
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      VPN_TYPE: wireguard
+      VPN_SERVICE_PROVIDER: mullvad
+      WIREGUARD_PRIVATE_KEY: "{{ wireguard_private_key }}"
+      WIREGUARD_ADDRESSES: 10.65.71.171/32
+      SERVER_CITIES: Ashburn VA
+      DOT: "off"
+      DNS_ADRESS: 10.64.0.1
+      TZ: "{{ timezone }}"
+      HTTPPROXY: "on"
+      HTTPPROXY_USER: httpproxy
+      HTTPPROXY_PASSWORD: httpproxy
