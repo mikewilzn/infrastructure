@@ -23,19 +23,25 @@ entryPoints:
   traefik:
     address: :8080
 
+api:
+  dashboard: true
+  debug: false
+
 certificatesResolvers:
   letsencrypt:
     acme:
       # Staging server
-      caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+      #caServer: https://acme-staging-v02.api.letsencrypt.org/directory
 
       # Production server
-      # caServer: https://acme-v02.api.letsencrypt.org/directory
-    email: "{{ letsencrypt_email }}"
-    storage: /etc/traefik.acme.json
-    dnsChallenge:
-      provider: porkbun
-      delayBeforeCheck: 0
+      caServer: https://acme-v02.api.letsencrypt.org/directory
+      email: "{{ letsencrypt_email }}"
+      storage: /etc/traefik/acme.json
+      dnsChallenge:
+        provider: porkbun
+        delayBeforeCheck: 0
+        resolvers:
+          - "1.1.1.1:53"
 
 serversTransport:
   insecureSkipVerify: true

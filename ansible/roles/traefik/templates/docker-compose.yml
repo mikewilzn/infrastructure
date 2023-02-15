@@ -3,11 +3,15 @@ version: "{{ docker_compose_version }}"
 networks:
   traefik:
     external: true
+  docker-socket-proxy:
+    external: false
 
 services:
   traefik:
     container_name: traefik
-    image: traefik:latest
+    image: traefik:v2.9
+    depends_on:
+      - docker_socket_proxy
     networks:
       - traefik
       - docker-socket-proxy
@@ -24,3 +28,15 @@ services:
       traefik.http.routers.traefik-dashboard.rule: "Host(`traefik.local.{{ personal_domain }}`)"
       traefik.http.routers.traefik-dashboard.service: api@internal
       traefik.http.routers.traefik-dashboard.middlewares: lan-whitelist@file
+
+  docker_socket_proxy:
+    image: tecnativa/docker-socket-proxy:latest
+    restart: unless-stopped
+    networks:
+      - docker-socket-proxy
+    environment:
+      - CONTAINERS=1
+      - SERVICES=1
+      - INFO=1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro

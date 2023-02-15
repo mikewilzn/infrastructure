@@ -1,0 +1,17 @@
+http:
+  middlewares:
+    lan-whitelist:
+      ipWhitelist:
+        sourceRange:
+          - 10.0.0.0/24
+          - 10.67.115.0/24
+
+    secure-headers:
+      headers:
+        customFrameOptionsValue: SAMEORIGIN
+        forceSTSHeader: true
+        stsSeconds: 15552000
+        stsPreload: true
+        customResponseHeaders:
+          Permissions-Policy: interest-cohort() # Opts out of Google's FLoC network. See https://paramdeo.com/blog/opting-your-website-out-of-googles-floc-network
+          X-Robots-Tag: none

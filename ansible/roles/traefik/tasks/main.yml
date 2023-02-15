@@ -14,15 +14,10 @@
   template:
     src: docker-compose.yml
     dest: "{{ install_directory}}/traefik/docker-compose.yml"
+    owner: "{{ docker_user }}"
     mode: "{{ docker_compose_file_mask }}"
     validate: docker-compose -f %s config
   become: true
-
-- name: Start docker container
-  community.docker.docker_compose:
-    project_src: "{{ install_directory }}/traefik"
-    pull: true
-    remove_orphans: yes
 
 - name: Install config
   template:
@@ -40,3 +35,25 @@
     mode: "{{ docker_compose_directory_mask }}"
     owner: "{{ primary_user }}"
   become: true
+
+- name: Install file providers
+  template:
+    src: "{{ item }}"
+    dest: "{{ data_dir }}/traefik/conf/"
+    mode: "{{ docker_compose_file_mask }}"
+    owner: "{{ primary_user }}"
+  with_fileglob:
+    - "templates/conf/*"
+
+- name: Create acme storage file
+  file:
+    path: "{{ data_dir }}/traefik/acme.json"
+    state: touch
+    mode: 0600
+  become: true
+
+- name: Start docker container
+  community.docker.docker_compose:
+    project_src: "{{ install_directory }}/traefik"
+    pull: true
+    remove_orphans: yes
