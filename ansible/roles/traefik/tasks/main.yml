@@ -44,6 +44,7 @@
     owner: "{{ primary_user }}"
   with_fileglob:
     - "templates/conf/*"
+  become: true
 
 - name: Create acme storage file
   file:
