@@ -1,0 +1,13 @@
+http:
+  routers:
+    router-opnsense:
+      rule: "Host(`opnsense.local.{{ personal_domain }}`)"
+      service: service-opnsense
+      middlewares:
+        - lan-whitelist@file
+
+  services:
+    service-opnsense:
+      loadBalancer:
+        servers:
+          - url: https://10.0.0.1

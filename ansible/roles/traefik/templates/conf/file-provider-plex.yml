@@ -1,0 +1,11 @@
+http:
+  routers:
+    router-plex:
+      rule: "Host(`plex.{{ personal_domain }}`)"
+      service: service-plex
+
+  services:
+    service-plex:
+      loadBalancer:
+        servers:
+          - url: https://10.0.0.31:32400

@@ -1,0 +1,13 @@
+http:
+  routers:
+    router-proxmox:
+      rule: "Host(`proxmox.local.{{ personal_domain }}`)"
+      service: service-proxmox
+      middlewares:
+        - lan-whitelist@file
+
+  services:
+    service-proxmox:
+      loadBalancer:
+        servers:
+          - url: https://10.0.0.2:8006

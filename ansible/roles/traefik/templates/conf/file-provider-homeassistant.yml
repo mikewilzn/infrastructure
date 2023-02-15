@@ -1,0 +1,11 @@
+http:
+  routers:
+    router-homeassistant:
+      rule: "Host(`homeassistant.{{ personal_domain }}`)"
+      service: service-homeassistant
+
+  services:
+    service-homeassistant:
+      loadBalancer:
+        servers:
+          - url: http://10.0.0.27:8123

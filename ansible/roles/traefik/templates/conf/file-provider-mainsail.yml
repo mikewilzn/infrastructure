@@ -1,0 +1,13 @@
+http:
+  routers:
+    router-mainsail:
+      rule: "Host(`mainsail.local.{{ personal_domain }}`)"
+      service: service-mainsail
+      middlewares:
+        - lan-whitelist@file
+
+  services:
+    service-mainsail:
+      loadBalancer:
+        servers:
+          - url: http://10.0.0.45
