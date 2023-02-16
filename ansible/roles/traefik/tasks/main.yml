@@ -19,6 +19,14 @@
     validate: docker-compose -f %s config
   become: true
 
+- name: Create config directory
+  file:
+    path: "{{ data_dir }}/traefik"
+    state: directory
+    owner: "{{ docker_user }}"
+    mode: "{{ docker_compose_directory_mask }}"
+  become: true
+
 - name: Install config
   template:
     src: traefik.yml

@@ -23,7 +23,3 @@
     name: docker-compose
     state: present
   become: true
-
-- name: Create Traefik docker network
-  community.docker.docker_network:
-    name: traefik

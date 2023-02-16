@@ -6,6 +6,7 @@
   roles:
     - pve-docker
     - docker-compose
+    - gluetun
     - traefik
     - prowlarr
     - sonarr

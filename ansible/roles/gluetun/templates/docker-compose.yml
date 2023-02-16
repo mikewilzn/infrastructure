@@ -21,8 +21,9 @@ services:
       VPN_TYPE: wireguard
       VPN_SERVICE_PROVIDER: mullvad
       WIREGUARD_PRIVATE_KEY: "{{ wireguard_private_key }}"
-      WIREGUARD_ADDRESSES: 10.65.71.171/32
-      SERVER_CITIES: Ashburn VA
+      WIREGUARD_ADDRESSES: "10.65.208.63/32"
+      FIREWALL_VPN_INPUT_PORTS: 61383
+      SERVER_CITIES: "Chicago IL"
       DOT: "off"
       DNS_ADRESS: 10.64.0.1
       TZ: "{{ timezone }}"

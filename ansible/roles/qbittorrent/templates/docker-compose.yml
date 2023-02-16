@@ -9,12 +9,12 @@ services:
     container_name: "{{ role_name }}"
     image: lscr.io/linuxserver/qbittorrent:libtorrentv1
     restart: unless-stopped
-    networks:
-      - traefik
+    network_mode: "container:gluetun"
     environment:
       - "PUID={{ service_user.uid }}"
       - "PGID={{ media_gid }}"
       - "TZ={{ timezone }}"
+      - DOCKER_MODS=arafatamim/linuxserver-io-mod-vuetorrent
     volumes:
       - "{{ data_dir }}/{{ role_name }}:/config"
       - "{{ media_storage_mnt }}/data/torrents:/downloads"
@@ -22,3 +22,4 @@ services:
       traefik.enable: true
       traefik.http.routers.{{ role_name }}.rule: "Host(`{{ role_name }}.local.{{ personal_domain }}`)"
       traefik.http.routers.{{ role_name }}.middlewares: lan-whitelist@file
+      traefik.http.services.qbittorrent.loadbalancer.server.port: 8080
