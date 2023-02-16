@@ -3,6 +3,7 @@
     name: "{{ role_name }}"
     groups: "{{ media_group }}"
     append: yes
+    system: true
   register: service_user
   become: true
 

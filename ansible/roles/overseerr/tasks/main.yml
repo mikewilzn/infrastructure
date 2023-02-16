@@ -1,6 +1,7 @@
 - name: Create service user
   user:
     name: "{{ role_name }}"
+    system: true
   register: service_user
   become: true
 
