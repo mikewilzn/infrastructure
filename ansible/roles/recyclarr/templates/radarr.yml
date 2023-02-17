@@ -8,7 +8,7 @@ radarr:
 
     delete_old_custom_formats: true
     custom_formats:
-      - trash_ids: [9364dd386c9b4a1100dde8264690add7] # FreeLeech
+      - trash_ids: [0d91270a7255a1e388fa85e959f359d8] # FreeLeech
         quality_profiles:
           - name: High Quality
           - name: Anime

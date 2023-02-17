@@ -17,7 +17,7 @@ services:
       - DOCKER_MODS=arafatamim/linuxserver-io-mod-vuetorrent
     volumes:
       - "{{ data_dir }}/{{ role_name }}:/config"
-      - "{{ media_storage_mnt }}/data/torrents:/downloads"
+      - "{{ media_storage_mnt }}/data/torrents:/data/torrents"
     labels:
       traefik.enable: true
       traefik.http.routers.{{ role_name }}.rule: "Host(`{{ role_name }}.local.{{ personal_domain }}`)"
