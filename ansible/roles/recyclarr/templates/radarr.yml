@@ -8,6 +8,11 @@ radarr:
 
     delete_old_custom_formats: true
     custom_formats:
+      - trash_ids: [9364dd386c9b4a1100dde8264690add7] # FreeLeech
+        quality_profiles:
+          - name: High Quality
+          - name: Anime
+
       - trash_ids:
         # HQ Release Groups
         - 3a3ff47579026e76d6504ebea39390de # Remux Tier 01
