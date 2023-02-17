@@ -6,6 +6,7 @@ sonarr:
     quality_definition:
       type: series
 
+    delete_old_custom_formats: true
     custom_formats:
       - trash_ids:
         # HDR Formats

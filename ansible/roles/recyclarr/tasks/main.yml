@@ -37,6 +37,7 @@
     owner: "{{ service_user.uid }}"
   loop:
     - sonarr.yml
+    - radarr.yml
   become: true
 
 - name: Create recyclarr docker network
