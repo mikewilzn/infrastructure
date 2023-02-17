@@ -19,4 +19,4 @@ services:
       - "{{ data_dir }}/{{ role_name }}:/config"
     labels:
       traefik.enable: true
-      traefik.http.routers.{{ role_name }}.rule: "Host(`{{ role_name }}.{{ personal_domain }}`)"
+      traefik.http.routers.{{ role_name }}.rule: "Host(`requests.{{ personal_domain }}`)"

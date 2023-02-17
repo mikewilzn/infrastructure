@@ -3,6 +3,8 @@ version: "{{ docker_compose_version }}"
 networks:
   traefik:
     external: true
+  recyclarr:
+    external: true
 
 services:
   "{{ role_name }}":
@@ -11,6 +13,7 @@ services:
     restart: unless-stopped
     networks:
       - traefik
+      - recyclarr
     environment:
       - "PUID={{ service_user.uid }}"
       - "PGID={{ media_gid }}"

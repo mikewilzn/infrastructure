@@ -8,8 +8,10 @@
     - docker-compose
     - gluetun
     - traefik
+    - recyclarr
     - prowlarr
     - sonarr
     - radarr
     - qbittorrent
+    - overseerr
     - ntfy

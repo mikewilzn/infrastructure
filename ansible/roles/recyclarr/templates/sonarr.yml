@@ -1,0 +1,109 @@
+sonarr:
+  main:
+    base_url: http://sonarr:8989
+    api_key: "{{ sonarr_api_key }}"
+
+    quality_definition:
+      type: series
+
+    custom_formats:
+      - trash_ids:
+        # HDR Formats
+        - 7878c33f1963fefb3d6c8657d46c2f0a # DV HDR10
+        - 6d0d8de7b57e35518ac0308b0ddf404e # DV
+        - 1f733af03141f068a540eec352589a89 # DV HLG
+        - 27954b0a80aab882522a88a4d9eae1cd # DV SDR
+        - a3d82cbef5039f8d295478d28a887159 # HDR10+
+        - 3497799d29a085e2ac2df9d468413c94 # HDR10
+        - 3e2c4e748b64a1a1118e0ea3f4cf6875 # HDR
+        - bb019e1cd00f304f80971c965de064dc # HDR (undefined)
+        - 2a7e3be05d3861d6df7171ec74cad727 # PQ
+        - 17e889ce13117940092308f48b48b45b # HLG
+
+        # Unwanted
+        - 85c61753df5da1fb2aab6f2a47426b09 # BR-DISK
+        - 9c11cd3f07101cdba90a2d81cf0e56b4 # LQ rlsgroups
+        - 9b64dff695c2115facf1b6ea59c9bd07 # x265 (no HDR/DV)
+        - 9b27ab6498ec0f31a3353992e19434ca # DV (no HDR10 fallback)
+        - 2016d1676f5ee13a5b7257ff86ac9a93 # SDR (4K)
+
+        # Misc
+        - ec8fa7296b64e8cd390a1600981f3923 # Repack/Proper
+        - eb3d5cc0a2be0db205fb823640db6a3c # Repack v2
+        - 44e7c4de10ae50265753082e5dc76047 # Repack v3
+
+        # HQ Source Groups
+        - e6258996055b9fbab7e9cb2f75819294 # WEB Tier 01
+        - 58790d4e2fdcd9733aa7ae68ba2bb503 # WEB Tier 02
+        - d84935abd3f8556dcd51d4f27e22d0a6 # WEB Tier 03
+        - d0c516558625b04b363fa6c5c2c7cfd4 # WEB Scene
+
+        # Audio Advanced
+        - 0d7824bb924701997f874e7ff7d4844a # TrueHD Atmos
+        - 9d00418ba386a083fbf4d58235fc37ef # DTS:X
+        - b6fbafa7942952a13e17e2b1152b539a # Atmos (undefined)
+        - 4232a509ce60c4e208d13825b7c06264 # DDPlus Atmos
+        - 1808e4b9cee74e064dfae3f1db99dbfe # TrueHD
+        - c429417a57ea8c41d57e6990a8b0033f # DTS-HD MA
+        - 851bd64e04c9374c51102be3dd9ae4cc # FLAC
+        - 30f70576671ca933adbdcfc736a69718 # PCM
+        - cfa5fbd8f02a86fc55d8d223d06a5e1f # DTS-HD HRA
+        - 63487786a8b01b7f20dd2bc90dd4a477 # DDPlus
+        - c1a25cd67b5d2e08287c957b1eb903ec # DTS-ES
+        - 5964f2a8b3be407d083498e4459d05d0 # DTS
+        - a50b8a0c62274a7c38b09a9619ba9d86 # AAC
+        - dbe00161b08a25ac6154c55f95e6318d # DD
+        - 3e8b714263b26f486972ee1e0fe7606c # MP3
+        - 28f6ef16d61e2d1adfce3156ed8257e3 # Opus
+
+        quality_profiles:
+          - name: Web
+          - name: Remux
+
+      - trash_ids:
+        # HQ Source Groups
+        - 9965a052eb87b0d10313b1cea89eb451 # Remux Tier 01
+        - 8a1d0c3d7497e741736761a1da866a2e # Remux Tier 02
+        - d6819cba26b1a6508138d25fb5e32293 # HD Bluray Tier 01
+        - c2216b7b8aa545dc1ce8388c618f8d57 # HD Bluray Tier 02
+
+        quality_profiles:
+          - name: Remux
+
+      - trash_ids:
+        # Source Groups
+        - 949c16fe0a8147f50ba82cc2df9411c9 # Anime BD Tier 01 (Top SeaDex Muxers)
+        - ed7f1e315e000aef424a58517fa48727 # Anime BD Tier 02 (SeaDex Muxers)
+        - 096e406c92baa713da4a72d88030b815 # Anime BD Tier 03 (SeaDex Muxers)
+        - 30feba9da3030c5ed1e0f7d610bcadc4 # Anime BD Tier 04 (SeaDex Muxers)
+        - 545a76b14ddc349b8b185a6344e28b04 # Anime BD Tier 05 (Remuxes)
+        - 25d2afecab632b1582eaf03b63055f72 # Anime BD Tier 06 (FanSubs)
+        - 0329044e3d9137b08502a9f84a7e58db # Anime BD Tier 07 (P2P/Scene)
+        - c81bbfb47fed3d5a3ad027d077f889de # Anime BD Tier 08 (Mini Encodes)
+        - e0014372773c8f0e1bef8824f00c7dc4 # Anime Web Tier 01 (Muxers)
+        - 19180499de5ef2b84b6ec59aae444696 # Anime Web Tier 02 (Top FanSubs)
+        - c27f2ae6a4e82373b0f1da094e2489ad # Anime Web Tier 03 (Official Subs)
+        - 4fd5528a3a8024e6b49f9c67053ea5f3 # Anime Web Tier 04 (Official Subs)
+        - 29c2a13d091144f63307e4a8ce963a39 # Anime Web Tier 05 (FanSubs)
+        - dc262f88d74c651b12e9d90b39f6c753 # Anime Web Tier 06 (FanSubs)
+        - b4a1b3d705159cdca36d71e57ca86871 # Anime Raws
+        - e3515e519f3b1360cbfc17651944354c # Anime LQ Groups
+        
+        # Optionals
+        - 026d5aadd1a6b4e550b134cb6c72b3ca # Uncensored
+        - d2d7b8a9d39413da5f44054080e028a3 # v0
+        - 273bd326df95955e1b6c26527d1df89b # v1
+        - 228b8ee9aa0a609463efca874524a6b8 # v2
+        - 0e5833d3af2cc5fa96a0c29cd4477feb # v3
+        - 4fc15eeb8f2f9a749f918217d4234ad8 # v4
+        - b2550eb333d27b75833e25b8c2557b38 # 10bit
+        - 44a8ee6403071dd7b8a3a8dd3fe8cb20 # VRV
+        - 07a32f77690263bb9fda1842db7e273f # VOSTFR
+
+        quality_profiles:
+          - name: Anime
+
+      - trash_ids:
+
+        quality_profiles:
+          - name: A
