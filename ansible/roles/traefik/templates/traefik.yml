@@ -10,6 +10,8 @@ entryPoints:
   web-secure:
     address: :443
     http:
+      middlewares:
+        - secure-headers@file
       tls:
         certResolver: letsencrypt
         domains:
@@ -17,8 +19,6 @@ entryPoints:
           - sans: "*.{{ personal_domain }}"
           - main: "local.{{ personal_domain }}"
           - sans: "*.local.{{ personal_domain }}"
-      middlewares:
-        - secure-headers@file
   
   traefik:
     address: :8080
