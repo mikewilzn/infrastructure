@@ -1,0 +1,107 @@
+qbt:
+  host: https://qbittorrent.local.mjwilson.org
+  user:
+  pass:
+
+settings:
+  force_auto_tmm: false  # Will force qBittorrent to enable Automatic Torrent Management for each torrent.
+  tracker_error_tag: issue  # Will set the tag of any torrents that do not have a working tracker.
+  ignoreTags_OnUpdate: # When running tag-update function, it will update torrent tags for a given torrent even if the torrent has one or more of the tags defined here.
+  - noHL
+  - issue
+  - cross-seed
+
+directory:
+  root_dir: /data/torrents
+  torrents_dir: /torrents
+  remote_dir: /data/torrents/
+  cross_seed:
+  recycle_bin: /data/torrents/.RecycleBin
+
+cat:
+  movies: /data/torrents/movies
+  tv: /data/torrents/tv
+  music: /data/torrents/music
+
+  torrents: /data/torrents/
+tracker:
+  digitalcore:
+    tag: DigitalCore
+  hdts:
+    tag: HDTorrents
+  myanonamouse:
+    tag: MaM
+  tleechreload:
+    tag: TorrentLeech
+  torrentleech:
+    tag: TorrentLeech
+    notifiarr: torrentleech
+  aither:
+    tag: Aither
+  nyaa:
+    tag: Nyaa
+  animetosho:
+    tag: AnimeTosho
+  immortalseed:
+    tag: ImmortalSeed
+  torrentseeds:
+    tag: TorrentSeeds
+  ops:
+    tag: Orpheus
+  t-ru:
+    tag: RuTracker
+  rarbg:
+    tag: RarBG
+
+nohardlinks:
+  movies:
+    cleanup: true
+    max_ratio: 4.0
+    max_seeding_time: 43200 # 30 days
+    min_seeding_time: 43200
+    resume_torrent_after_untagging_noHL: true
+    exclude_tags:
+  tv:
+    cleanup: true
+    max_ratio: 4.0
+    max_seeding_time: 43200
+    min_seeding_time: 43200
+    resume_torrent_after_untagging_noHL: true
+    exclude_tags:
+  music:
+    cleanup: true
+    max_ratio: 4.0
+    max_seeding_time: 43200
+    min_seeding_time: 43200
+    resume_torrent_after_untagging_noHL: true
+    exclude_tags:
+
+recyclebin:
+  enabled: true
+  empty_after_x_days: 7
+  save_torrents: true
+  split_by_category: false
+
+orphaned:
+  empty_after_x_days: 30
+  exclude_patterns:
+  - '**/.DS_Store'
+  - '**/Thumbs.db'
+  - '**/@eaDir'
+  - /data/torrents/temp/**
+  - '**/*.!qB'
+
+webhooks:
+  error:
+  run_start:
+  run_end:
+  function:
+    cross_seed:
+    recheck:
+    cat_update:
+    tag_update:
+    rem_unregistered:
+    tag_tracker_error:
+    rem_orphaned:
+    tag_nohardlinks:
+    cleanup_dirs:

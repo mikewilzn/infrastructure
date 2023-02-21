@@ -14,10 +14,12 @@ services:
     user: "{{ primary_uid }}:{{ primary_gid }}"
     environment:
       - TZ={{ timezone }}
+    command:
+      - serve
     volumes:
       - "{{ data_dir }}/ntfy:/etc/ntfy"
       - /var/cache/ntfy:/var/cache/ntfy
     labels:
       traefik.enable: true
-      traefik.http.routers.ntfy.rule: "Host(`ntfy.{{ personal_domain }}`)"
+      traefik.http.routers.ntfy.rule: "Host(`push.{{ personal_domain }}`)"
       traefik.http.routers.ntfy.middlewares: lan-whitelist@file

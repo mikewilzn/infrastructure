@@ -24,7 +24,15 @@
     validate: docker-compose -f %s config
   become: true
 
-- name: Start docker container
+- name: Install qbitmanage config file
+  copy:
+    src: qbitmanage/config.yml
+    dest: "{{ data_dir }}/qbitmanage/config.yml"
+    owner: "{{ service_user.uid }}"
+    mode: "{{ docker_compose_file_mask }}"
+  become: true
+
+- name: Start docker containers
   community.docker.docker_compose:
     project_src: "{{ install_directory }}/{{ role_name }}"
     pull: true

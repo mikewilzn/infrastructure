@@ -5,6 +5,7 @@ http:
         sourceRange:
           - 10.0.0.0/24
           - 10.67.115.0/24
+          - 172.16.0.0/12
 
     secure-headers:
       headers:
