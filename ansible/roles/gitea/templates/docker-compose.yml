@@ -1,0 +1,46 @@
+version: "{{ docker_compose_version }}"
+
+networks:
+  traefik:
+    external: true
+  default:
+    external: false
+
+services:
+  gitea:
+    container_name: gitea
+    image: gitea/gitea:latest
+    restart: unless-stopped
+    depends_on:
+      - db
+    networks:
+      - traefik
+      - default
+    environment:
+      - "USER_UID={{ service_user.uid }}"
+      - "USER_GID={{ service_user.uid }}"
+      - GITEA_database__DB_TYPE=postgres
+      - GITEA_database__HOST=db:5432
+      - GITEA_database__NAME=gitea
+      - GITEA_database__USER=gitea
+      - GITEA_database__PASSWD=gitea
+    volumes:
+      - "{{ data_dir }}/gitea:/data"
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    labels:
+      traefik.enable: true
+      traefik.http.routers.gitea.rule: "Host(`git.{{ personal_domain }}`)"
+      traefik.http.services.gitea.loadbalancer.server.port: 3000
+
+  db:
+    image: postgres:14-alpine
+    restart: unless-stopped
+    networks:
+      - default
+    environment:
+      - POSTGRES_USER=gitea
+      - POSTGRES_PASSWORD=gitea
+      - POSTGRES_DB=gitea
+    volumes:
+      - "{{ data_dir }}/postgres/gitea:/var/lib/postgresql/data"
