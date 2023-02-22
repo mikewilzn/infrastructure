@@ -20,4 +20,4 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.tautulli.rule: "Host(`tautulli.local.{{ personal_domain }}`)"
-      traefik.http.routers.tautulli.middlewares: ip-whitelist@file
+      traefik.http.routers.tautulli.middlewares: lan-whitelist@file
