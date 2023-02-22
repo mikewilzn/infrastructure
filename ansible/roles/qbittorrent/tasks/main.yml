@@ -32,6 +32,22 @@
     mode: "{{ docker_compose_file_mask }}"
   become: true
 
+- name: Create cross-seed config directory
+  file:
+    path: "{{ data_dir }}/cross-seed"
+    state: directory
+    owner: "{{ service_user.uid }}"
+    mode: "{{ docker_compose_directory_mask }}"
+  become: true
+
+- name: Install cross-seed config file
+  template:
+    src: cross-seed/config.js
+    dest: "{{ data_dir }}/cross-seed/config.js"
+    owner: "{{ service_user.uid }}"
+    mode: "{{ docker_compose_file_mask }}"
+  become: true
+
 - name: Start docker containers
   community.docker.docker_compose:
     project_src: "{{ install_directory }}/{{ role_name }}"
