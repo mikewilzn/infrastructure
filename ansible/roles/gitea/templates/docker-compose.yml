@@ -29,6 +29,8 @@ services:
       - GITEA__server__START_SSH_SERVER=true
       - GITEA__server__BUILTIN_SSH_SERVER_USER=git
       - GITEA__server__SSH_LISTEN_PORT=2222
+      - "GITEA__server__DOMAIN=git.{{ personal_domain }}"
+      - "GITEA__server__ROOT_URL=https://git.{{ personal_domain }}"
     volumes:
       - "{{ data_dir }}/gitea:/data"
       - /etc/localtime:/etc/localtime:ro

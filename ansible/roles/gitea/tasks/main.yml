@@ -3,6 +3,7 @@
     name: git
     password_lock: yes
     generate_ssh_key: yes
+    ssh_key_type: ed25519
     ssh_key_comment: Gitea Host Key
   register: service_user
   become: true
