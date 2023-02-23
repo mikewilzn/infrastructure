@@ -4,14 +4,15 @@ networks:
   traefik:
     external: true
   docker-socket-proxy:
-    external: false
+    external: true
 
 services:
   traefik:
     container_name: traefik
     image: traefik:v2.9
     depends_on:
-      - docker_socket_proxy
+      docker_socket_proxy:
+        condition: service_healthy
     networks:
       - traefik
       - docker-socket-proxy
@@ -30,6 +31,7 @@ services:
       traefik.http.routers.traefik-dashboard.middlewares: lan-whitelist@file
 
   docker_socket_proxy:
+    container_name: docker_socket_proxy
     image: tecnativa/docker-socket-proxy:latest
     restart: unless-stopped
     networks:
@@ -40,3 +42,6 @@ services:
       - INFO=1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    healthcheck:
+      test: "exit 0"
+      start_period: 5s

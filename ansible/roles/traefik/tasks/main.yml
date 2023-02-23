@@ -2,6 +2,10 @@
   community.docker.docker_network:
     name: traefik
 
+- name: Create docker network for Docker Socket Proxy
+  community.docker.docker_network:
+    name: docker-socket-proxy
+
 - name: Create install directory
   file:
     path: "{{ install_directory }}/traefik"

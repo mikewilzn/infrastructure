@@ -1,0 +1,27 @@
+version: "{{ docker_compose_version }}"
+
+networks:
+  docker-socket-proxy:
+    external: true
+
+services:
+  renovate:
+    container_name: renovate
+    image: renovate/renovate:slim
+    restart: unless-stopped
+    depends_on:
+      - redis
+    networks:
+      - docker-socket-proxy
+    user: "{{ service_user.uid }}:{{ service_user.group }}"
+    environment:
+      - TZ={{ timezone }}
+      - DOCKER_HOST=tcp://docker_socket_proxy:2375
+      - "RENOVATE_TOKEN={{ renovate_gitea_token }}"
+    volumes:
+      - "{{ data_dir }}/renovate:/{{ data_dir }}/renovate" # These must be the same
+      - ./config.js:/usr/src/app/config.js:ro
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
