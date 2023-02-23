@@ -40,10 +40,6 @@
     - radarr.yml
   become: true
 
-- name: Create recyclarr docker network
-  community.docker.docker_network:
-    name: recyclarr
-
 - name: Start docker container
   community.docker.docker_compose:
     project_src: "{{ install_directory }}/{{ role_name }}"

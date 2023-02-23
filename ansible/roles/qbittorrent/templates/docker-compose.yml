@@ -1,5 +1,9 @@
 version: "{{ docker_compose_version }}"
 
+networks:
+  starr:
+    external: true
+
 services:
   qbittorrent:
     container_name: qbittorrent
@@ -37,7 +41,6 @@ services:
       QBT_REM_UNREGISTERED: "True"
       QBT_REMOVE_ORPHANED: "True"
       QBT_TAG_NOHARDLINKS: "True"
-
     volumes:
       - "{{ data_dir }}/qbitmanage:/config"
       - "{{ media_storage_mnt }}/data/torrents:/data/torrents" # root_dir
@@ -55,3 +58,26 @@ services:
       - "{{ data_dir }}/cross-seed/output:/cross-seeds"
     command: daemon
     restart: unless-stopped
+
+  unpackerr:
+    container_name: unpackerr
+    image: cr.hotio.dev/hotio/unpackerr
+    networks:
+      - starr
+    environment:
+      - "PUID={{ service_user.uid }}"
+      - "PGID={{ media_gid }}"
+      - UMASK=002
+      - TZ={{ timezone }}
+      - UN_INTERVAL=5m
+      - UN_FILE_MODE=0664
+      - UN_DIR_MODE=0775
+      - UN_SONARR_0_URL=http://sonarr:8989
+      - "UN_SONARR_0_API_KEY={{ sonarr_api_key }}"
+      - UN_SONARR_0_PATHS_0=/data/torrents/tv
+      - UN_RADARR_0_URL=http://radarr:7878
+      - "UN_RADARR_0_API_KEY={{ radarr_api_key }}"
+      - UN_RADARR_0_PATHS_0=/data/torrents/movies
+    volumes:
+      - "{{ data_dir }}/unpackerr:/config"
+      - "{{ media_storage_mnt }}/data/torrents:/data/torrents"

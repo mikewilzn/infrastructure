@@ -1,7 +1,7 @@
 version: "{{ docker_compose_version }}"
 
 networks:
-  recyclarr:
+  starr:
     external: true
 
 services:
@@ -11,7 +11,7 @@ services:
     restart: unless-stopped
     user: "{{ service_user.uid }}:{{ service_user.uid }}"
     networks:
-      - recyclarr
+      - starr
     environment:
       - "TZ={{ timezone }}"
     volumes:

@@ -23,3 +23,15 @@
     name: docker-compose
     state: present
   become: true
+
+- name: Create docker network for Traefik
+  community.docker.docker_network:
+    name: traefik
+
+- name: Create docker network for Docker Socket Proxy
+  community.docker.docker_network:
+    name: docker-socket-proxy
+
+- name: Create docker network for Starr services
+  community.docker.docker_network:
+    name: starr
