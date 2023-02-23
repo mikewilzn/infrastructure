@@ -8,9 +8,7 @@
 - name: Set media directory permissions
   ansible.builtin.file:
     path: "{{ media_storage_mnt }}/data"
-    state: directory
-    owner: "{{ primary_gid }}"
     group: media
-    mode: 0775
+    mode: "a=,a+rX,u+w,g+w"
     recurse: yes
   become: true

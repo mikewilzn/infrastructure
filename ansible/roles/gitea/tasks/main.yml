@@ -1,8 +1,25 @@
 - name: Create service user
   user:
-    name: "{{ role_name }}"
-    system: true
+    name: git
+    password_lock: yes
+    generate_ssh_key: yes
+    ssh_key_comment: Gitea Host Key
   register: service_user
+  become: true
+
+- name: Add user git's ssh key to its own authorized_key file
+  ansible.posix.authorized_key:
+    user: git
+    key: "{{ service_user.ssh_public_key }}"
+  become: true
+
+- name: Install SSH shim script
+  copy:
+    src: ssh_shim.sh
+    dest: /usr/local/bin/gitea
+    owner: "{{ service_user.uid }}"
+    group: "{{ service_user.group }}"
+    mode: 711
   become: true
 
 - name: Create install directory
@@ -10,15 +27,6 @@
     path: "{{ install_directory }}/{{ role_name }}"
     state: directory
     owner: "{{ docker_user }}"
-    mode: "{{ docker_compose_directory_mask }}"
-  become: true
-
-- name: Create config directory
-  file:
-    path: "{{ data_dir }}/{{ role_name }}"
-    state: directory
-    owner: "{{ service_user.uid }}"
-    group: "{{ service_user.uid }}"
     mode: "{{ docker_compose_directory_mask }}"
   become: true
 

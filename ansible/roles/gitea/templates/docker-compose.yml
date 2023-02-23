@@ -16,18 +16,24 @@ services:
     networks:
       - traefik
       - default
+    ports:
+      - "127.0.0.1:2222:2222"
     environment:
       - "USER_UID={{ service_user.uid }}"
-      - "USER_GID={{ service_user.uid }}"
-      - GITEA_database__DB_TYPE=postgres
-      - GITEA_database__HOST=db:5432
-      - GITEA_database__NAME=gitea
-      - GITEA_database__USER=gitea
-      - GITEA_database__PASSWD=gitea
+      - "USER_GID={{ service_user.group }}"
+      - GITEA__database__DB_TYPE=postgres
+      - GITEA__database__HOST=db:5432
+      - GITEA__database__NAME=gitea
+      - GITEA__database__USER=gitea
+      - GITEA__database__PASSWD=gitea
+      - GITEA__server__START_SSH_SERVER=true
+      - GITEA__server__BUILTIN_SSH_SERVER_USER=git
+      - GITEA__server__SSH_LISTEN_PORT=2222
     volumes:
       - "{{ data_dir }}/gitea:/data"
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+      - /home/git/.ssh:/data/git/.ssh # For SSH passthrough
     labels:
       traefik.enable: true
       traefik.http.routers.gitea.rule: "Host(`git.{{ personal_domain }}`)"

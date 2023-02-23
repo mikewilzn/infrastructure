@@ -15,6 +15,7 @@ services:
       - "PUID={{ service_user.uid }}"
       - "PGID={{ media_gid }}"
       - "TZ={{ timezone }}"
+      - "UMASK=002"
     volumes:
       - "{{ data_dir }}/{{ role_name }}:/config"
       - "{{ media_storage_mnt }}/data:/data"

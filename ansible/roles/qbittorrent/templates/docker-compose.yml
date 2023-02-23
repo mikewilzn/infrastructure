@@ -10,6 +10,7 @@ services:
       - "PUID={{ service_user.uid }}"
       - "PGID={{ media_gid }}"
       - "TZ={{ timezone }}"
+      - "UMASK=002"
       #- DOCKER_MODS=arafatamim/linuxserver-io-mod-vuetorrent
     volumes:
       - "{{ data_dir }}/{{ role_name }}:/config"
