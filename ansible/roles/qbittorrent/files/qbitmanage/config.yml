@@ -20,10 +20,12 @@ directory:
 
 cat:
   movies: /data/torrents/movies
+  movies.cross-seed: /data/torrents/movies
   tv: /data/torrents/tv
+  tv.cross-seed: /data/torrents/tv
   music: /data/torrents/music
+  music.cross-seed: /data/torrents/music
 
-  torrents: /data/torrents/
 tracker:
   digitalcore:
     tag: DigitalCore
@@ -52,9 +54,18 @@ tracker:
     tag: RuTracker
   rarbg:
     tag: RarBG
+  reelflix:
+    tag: ReelFlix
 
 nohardlinks:
   movies:
+    cleanup: true
+    max_ratio: 4.0
+    max_seeding_time: 43200 # 30 days
+    min_seeding_time: 43200
+    resume_torrent_after_untagging_noHL: true
+    exclude_tags:
+  movies.cross-seed:
     cleanup: true
     max_ratio: 4.0
     max_seeding_time: 43200 # 30 days
@@ -68,7 +79,21 @@ nohardlinks:
     min_seeding_time: 43200
     resume_torrent_after_untagging_noHL: true
     exclude_tags:
+  tv.cross-seed:
+    cleanup: true
+    max_ratio: 4.0
+    max_seeding_time: 43200
+    min_seeding_time: 43200
+    resume_torrent_after_untagging_noHL: true
+    exclude_tags:
   music:
+    cleanup: true
+    max_ratio: 4.0
+    max_seeding_time: 43200
+    min_seeding_time: 43200
+    resume_torrent_after_untagging_noHL: true
+    exclude_tags:
+  music.cross-seed:
     cleanup: true
     max_ratio: 4.0
     max_seeding_time: 43200

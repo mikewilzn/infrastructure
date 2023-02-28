@@ -1,0 +1,4 @@
+- name: restart qbittorrent
+  community.docker.docker_compose:
+    project_src: "{{ install_directory }}/qbittorrent"
+    restarted: true

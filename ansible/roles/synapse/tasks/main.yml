@@ -1,0 +1,77 @@
+- name: Create service user
+  user:
+    name: "{{ role_name }}"
+    system: true
+  register: service_user
+  become: true
+
+- name: Create install directory
+  file:
+    path: "{{ install_directory }}/{{ role_name }}"
+    state: directory
+    owner: "{{ docker_user }}"
+    mode: "{{ docker_compose_directory_mask }}"
+  become: true
+
+- name: Copy docker-compose file to destination
+  template:
+    src: docker-compose.yml
+    dest: "{{ install_directory }}/{{ role_name }}/docker-compose.yml"
+    owner: "{{ docker_user }}"
+    mode: "{{ docker_compose_file_mask }}"
+    validate: docker-compose -f %s config
+  become: true
+
+- name: Copy homeserver.yaml to destination
+  template:
+    src: homeserver.yaml
+    dest: "{{ install_directory }}/synapse/homeserver.yaml"
+    owner: "{{ service_user.uid }}"
+    mode: "{{ docker_compose_file_mask }}"
+  notify: restart synapse
+  become: true
+
+- name: Create config directory and set synapse user to owner
+  file:
+    path: "{{ data_dir }}/synapse"
+    state: directory
+    owner: "{{ service_user.uid }}"
+    mode: "{{ docker_compose_directory_mask }}"
+  become: true
+
+- name: Create nginx config directory
+  file:
+    path: "{{ data_dir }}/nginx/synapse/www/.well-known/matrix/"
+    state: directory
+    mode: "{{ docker_compose_directory_mask }}"
+  become: true
+
+- name: Install nginx config file
+  template:
+    src: nginx/matrix.conf
+    dest: "{{ data_dir }}/nginx/synapse/matrix.conf"
+    owner: "{{ docker_user }}"
+    mode: "{{ docker_compose_file_mask }}"
+  become: true
+
+- name: Install well known client file
+  template:
+    src: nginx/client.json
+    dest: "{{ data_dir }}/nginx/synapse/www/.well-known/matrix/client"
+    owner: "{{ docker_user }}"
+    mode: "{{ docker_compose_file_mask }}"
+  become: true
+
+- name: Install well known server file
+  template:
+    src: nginx/server.json
+    dest: "{{ data_dir }}/nginx/synapse/www/.well-known/matrix/server"
+    owner: "{{ docker_user }}"
+    mode: "{{ docker_compose_file_mask }}"
+  become: true
+
+- name: Start docker container
+  community.docker.docker_compose:
+    project_src: "{{ install_directory }}/{{ role_name }}"
+    pull: true
+    remove_orphans: yes

@@ -1,0 +1,39 @@
+server_name: "{{ personal_domain }}"
+pid_file: /data/homeserver.pid
+public_baseurl: "https://matrix.{{ personal_domain }}"
+
+acme:
+  enabled: false
+
+database:
+  name: psycopg2
+  args:
+    user: synapse
+    password: synapse
+    database: synapse
+    host: db
+
+redis:
+  enabled: true
+  host: redis
+  port: 6379
+
+listeners:
+  - port: 8008
+    tls: false
+    type: http
+    x_forwarded: true
+    resources:
+      - names: [client, federation]
+        compress: false
+
+registration_shared_secret: "{{ synapse_registration_shared_secret }}"
+
+report_stats: true
+
+media_store_path: /data/media_store
+uploads_path: /data/uploads
+
+trusted_key_servers:
+  - server_name: matrix.org
+suppress_key_server_warning: true

@@ -10,6 +10,7 @@ module.exports = {
 	    "http://prowlarr.local.{{ personal_domain }}/4/api?apikey={{ prowlarr_api_key }}", // TorrentSeeds
 	    "http://prowlarr.local.{{ personal_domain }}/5/api?apikey={{ prowlarr_api_key }}", // AnimeTosho
 	    "http://prowlarr.local.{{ personal_domain }}/6/api?apikey={{ prowlarr_api_key }}", // Aither
+	    "http://prowlarr.local.{{ personal_domain }}/7/api?apikey={{ prowlarr_api_key }}", // Reelflix
     ],
 
     torrentDir: "/torrents",
@@ -23,7 +24,7 @@ module.exports = {
     rtorrentRpcUrl: undefined,
     qbittorrentUrl: "https://qbittorrent.local.{{ personal_domain }}",
     duplicateCategories: true,
-    notificationWebhookUrl: undefined,
+    notificationWebhookUrl: "ntfy://push.{{ personal_domain }}/{{ ntfy_crossseed_topic }}",
     port: 2468,
     rssCadence: "2w",
     searchCadence: "6w",

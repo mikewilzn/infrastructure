@@ -1,0 +1,68 @@
+version: "{{ docker_compose_version }}"
+
+networks:
+  traefik:
+    external: true
+
+services:
+  synapse:
+    container_name: "synapse"
+    image: matrixdotorg/synapse
+    restart: unless-stopped
+    depends_on:
+      - db
+    networks:
+      - traefik
+      - default
+    environment:
+      - "UID={{ service_user.uid }}"
+      - "GID={{ service_user.uid }}"
+      - "TZ={{ timezone }}"
+    volumes:
+      - "{{ data_dir }}/{{ role_name }}:/data"
+      - ./homeserver.yaml:/data/homeserver.yaml
+    labels:
+      traefik.enable: true
+      traefik.http.routers.synapse.rule: "Host(`matrix.{{ personal_domain }}`) || (Host(`{{ personal_domain }}`) && PathPrefix(`/_matrix/`))"
+
+  db:
+    image: postgres:14-alpine
+    restart: unless-stopped
+    networks:
+      - default
+    environment:
+      - POSTGRES_USER=synapse
+      - POSTGRES_PASSWORD=synapse
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+    volumes:
+      - "{{ data_dir }}/postgres/synapse:/var/lib/postgresql/data"
+
+  redis:
+    networks:
+      - default
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - "{{ data_dir }}/redis/synapse:/data"
+
+  admin:
+    image: awesometechnologies/synapse-admin:latest
+    restart: unless-stopped
+    networks:
+      - traefik
+    labels:
+      traefik.enable: true
+      traefik.http.routers.synapse-admin.rule: "Host(`synapse-admin.local.{{ personal_domain }}`)"
+      traefik.http.routers.synapse-admin.middlewares: lan-whitelist@file
+
+  nginx:
+    image: nginx:latest
+    restart: unless-stopped
+    networks:
+      - traefik
+    volumes:
+      - "{{ data_dir }}/nginx/synapse/matrix.conf:/etc/nginx/conf.d/matrix.conf"
+      - "{{ data_dir }}/nginx/synapse/www:/var/www"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.matrix.rule: "Host(`{{ personal_domain }}`)"

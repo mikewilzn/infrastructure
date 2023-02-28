@@ -29,9 +29,11 @@ services:
     container_name: qbitmanage
     image: cr.hotio.dev/hotio/qbitmanage
     restart: unless-stopped
+    depends_on:
+      - qbittorrent
     environment:
       PUID: "{{ service_user.uid }}"
-      PGID: "{{ service_user.uid }}"
+      PGID: "{{ media_gid }}"
       UMASK: 002
       TZ: "{{ timezone }}"
       QBT_DRY_RUN: "False"
