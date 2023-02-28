@@ -15,6 +15,15 @@
     validate: docker-compose -f %s config
   become: true
 
+- name: Install configuration file
+  template:
+    src: server.yml
+    dest: "{{ data_dir }}/ntfy/server.yml"
+    owner: "{{ docker_user }}"
+    mode: "{{ docker_compose_file_mask }}"
+  notify: restart ntfy
+  become: true
+
 - name: Start docker container
   community.docker.docker_compose:
     project_src: "{{ install_directory }}/{{ role_name }}"

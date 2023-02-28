@@ -18,5 +18,4 @@
     - nextcloud
     - tautulli
     - gitea
-    - name: synapse
-      tags: test
+    - synapse

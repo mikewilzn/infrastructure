@@ -1,4 +1,4 @@
 {
-  "m.server": "matrix.mjwilson.org:443"
+  "m.server": "matrix.{{ personal_domain }}:443"
 }
 

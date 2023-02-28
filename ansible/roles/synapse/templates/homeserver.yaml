@@ -2,6 +2,9 @@ server_name: "{{ personal_domain }}"
 pid_file: /data/homeserver.pid
 public_baseurl: "https://matrix.{{ personal_domain }}"
 
+ip_range_whitelist:
+  - 10.0.0.0/24
+
 acme:
   enabled: false
 
