@@ -24,7 +24,6 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.nextcloud.rule: "Host(`{{ role_name }}.{{ personal_domain }}`)"
-      traefik.http.routers.nextcloud.middlewares: lan-whitelist@file
       traefik.http.services.nextcloud.loadbalancer.server.port: 443
       traefik.http.services.nextcloud.loadbalancer.server.scheme: https
 

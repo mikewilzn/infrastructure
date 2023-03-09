@@ -1,0 +1,13 @@
+http:
+  routers:
+    router-ezbeq:
+      rule: "Host(`ezbeq.local.{{ personal_domain }}`)"
+      service: service-ezbeq
+      middlewares:
+        - lan-whitelist@file
+
+  services:
+    service-ezbeq:
+      loadBalancer:
+        servers:
+          - url: http://10.0.0.84:8080

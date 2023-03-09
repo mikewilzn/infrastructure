@@ -1,0 +1,13 @@
+http:
+  routers:
+    router-adguard:
+      rule: "Host(`adguard.local.{{ personal_domain }}`)"
+      service: service-adguard
+      middlewares:
+        - lan-whitelist@file
+
+  services:
+    service-adguard:
+      loadBalancer:
+        servers:
+          - url: http://10.0.0.1:81
