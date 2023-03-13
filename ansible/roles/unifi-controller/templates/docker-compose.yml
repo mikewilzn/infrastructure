@@ -26,3 +26,4 @@ services:
       traefik.enable: true
       traefik.http.routers.unifi.rule: "Host(`unifi.local.{{ personal_domain }}`)"
       traefik.http.routers.unifi.middlewares: lan-whitelist@file
+      traefik.http.services.unifi.loadbalancer.server.scheme: https
