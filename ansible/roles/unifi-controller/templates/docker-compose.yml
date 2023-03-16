@@ -5,7 +5,7 @@ networks:
     external: true
 
 services:
-  tautulli:
+  unifi-controller:
     container_name: unifi-controller
     image: lscr.io/linuxserver/unifi-controller:latest
     restart: unless-stopped
