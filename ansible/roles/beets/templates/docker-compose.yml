@@ -1,0 +1,24 @@
+version: "{{ docker_compose_version }}"
+
+networks:
+  traefik:
+    external: true
+
+services:
+  beets:
+    container_name: beets
+    image: lscr.io/linuxserver/beets:latest
+    restart: unless-stopped
+    networks:
+      - traefik
+    environment:
+      - "PUID={{ service_user.uid }}"
+      - "PGID={{ media_gid }}"
+      - "TZ={{ timezone }}"
+    volumes:
+      - "{{ data_dir }}/{{ role_name }}:/config"
+      - "{{ media_storage_mnt }}/data/media/music:/music"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.beets.rule: "Host(`beets.local.{{ personal_domain }}`)"
+      traefik.http.routers.beets.middlewares: lan-whitelist@file
