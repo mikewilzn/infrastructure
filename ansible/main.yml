@@ -20,3 +20,5 @@
     - gitea
     - unifi-controller
     - beets
+    - name: navidrome
+      tags: test

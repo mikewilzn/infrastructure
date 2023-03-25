@@ -1,0 +1,21 @@
+version: "{{ docker_compose_version }}"
+
+networks:
+  traefik:
+    external: true
+
+services:
+  {{ role_name }}:
+    container_name: "{{ role_name }}"
+    image: deluan/navidrome
+    restart: unless-stopped
+    user: "{{ service_user.uid }}:{{ service_user.uid }}"
+    networks:
+      - traefik
+    volumes:
+      - "{{ data_dir }}/{{ role_name }}:/data"
+      - "{{ media_storage_mnt }}/data/media/music:/music:ro"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.{{ role_name }}.rule: "Host(`music.{{ personal_domain }}`)"
+      traefik.http.services.navidrome.loadbalancer.server.port: 4533
