@@ -1,3 +1,11 @@
+- name: Create service user
+  user:
+    name: "{{ role_name }}"
+    append: yes
+    system: true
+  register: service_user
+  become: true
+
 - name: Create install directory
   file:
     path: "{{ install_directory }}/{{ role_name }}"
