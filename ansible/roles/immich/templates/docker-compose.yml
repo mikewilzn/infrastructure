@@ -1,0 +1,86 @@
+version: "{{ docker_compose_version }}"
+
+networks:
+  traefik:
+    external: true
+
+services:
+  immich-server:
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:release
+    restart: unless-stopped
+    entrypoint: ["/bin/sh", "./start-server.sh"]
+    volumes:
+      - "{{ upload_location }}:/usr/src/app/upload"
+    depends_on:
+      - redis
+      - database
+      - typesense
+
+  immich-microservices:
+    container_name: immich_microservices
+    image: ghcr.io/immich-app/immich-server:release
+    restart: unless-stopped
+    entrypoint: ["/bin/sh", "./start-microservices.sh"]
+    volumes:
+      - "{{ upload_location }}:/usr/src/app/upload"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - redis
+      - database
+      - typesense
+
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:release
+    restart: unless-stopped
+    volumes:
+      - "{{ upload_location }}:/usr/src/app/upload"
+      - model-cache:/cache
+    environment:
+      - NODE_ENV=production
+
+  immich-web:
+    container_name: immich-web
+    image: ghcr.io/immich-app/immich-web:release
+    restart: unless-stopped
+    entrypoint: ["/bin/sh", "./entrypoint.sh"]
+
+  typesense:
+    container_name: immich_typesense
+    image: typesense/typesense:0.24.0
+    restart: unless-stopped
+    environment:
+      - TYPESENSE_API_KEY={{ typesense_api_key }}
+      - TYPESENSE_DATA_DIR=/data
+    logging:
+      driver: none
+    volumes:
+      - tsdata:/data
+
+  redis:
+    container_name: immich_redis
+    image: redis:6.2
+    restart: unless-stopped
+
+  database:
+    container_name: immich_postgres
+    image: postgres:14
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: immich
+      POSTGRES_USER: immich
+      POSTGRES_DB: immich
+      PG_DATA: /var/lib/postgresql/data
+    volumes:
+      - "{{ data_dir }}/postgres/immich:/var/lib/postgresql/data
+
+  immich-proxy:
+    container_name: immich_proxy
+    image: ghcr.io/immich-app/immich-proxy:release
+    environment:
+
+volumes:
+  model-cache:
+  tsdata:
