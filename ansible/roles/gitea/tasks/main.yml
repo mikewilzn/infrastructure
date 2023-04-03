@@ -3,7 +3,7 @@
     name: git
     password_lock: yes
     generate_ssh_key: yes
-    ssh_key_type: ed25519
+    ssh_key_type: rsa
     ssh_key_comment: Gitea Host Key
   register: service_user
   become: true
@@ -14,13 +14,19 @@
     key: "{{ service_user.ssh_public_key }}"
   become: true
 
+- name: Set authorized_key file permissions
+  file:
+    path: "/home/{{ service_user.name }}/.ssh/authorized_keys"
+    mode: 0600
+  become: true
+
 - name: Install SSH shim script
   copy:
     src: ssh_shim.sh
     dest: /usr/local/bin/gitea
     owner: "{{ service_user.uid }}"
     group: "{{ service_user.group }}"
-    mode: 711
+    mode: 0711
   become: true
 
 - name: Create install directory

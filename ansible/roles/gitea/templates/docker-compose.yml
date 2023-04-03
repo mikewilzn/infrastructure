@@ -17,7 +17,7 @@ services:
       - traefik
       - default
     ports:
-      - "127.0.0.1:2222:2222"
+      - "127.0.0.1:2222:22"
     environment:
       - "USER_UID={{ service_user.uid }}"
       - "USER_GID={{ service_user.group }}"
@@ -31,6 +31,7 @@ services:
       - GITEA__server__SSH_LISTEN_PORT=2222
       - "GITEA__server__DOMAIN=git.{{ personal_domain }}"
       - "GITEA__server__ROOT_URL=https://git.{{ personal_domain }}"
+      - GITEA__server__LANDING_PAGE=explore
     volumes:
       - "{{ data_dir }}/gitea:/data"
       - /etc/localtime:/etc/localtime:ro
