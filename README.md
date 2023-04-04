@@ -16,8 +16,10 @@ Having Plex and Jellyfin separate from the rest of my docker infrastructure allo
 
 ### Host specs:
 
-**CPU:** Intel i5-10500 *(chosen for the Quicksync iGPU which is highly efficient at media transcoding*
+**CPU:** Intel i5-10500 *(chosen for the Quicksync iGPU which is highly efficient at media transcoding)*
+
 **RAM:** 2x 32GB DDR4
+
 **Storage:**
 * `/`: 1 TB NVME SSD
 * `/vm_storage`: 2x 240 GB SSD in ZFS mirror for config and data files
