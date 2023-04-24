@@ -17,8 +17,9 @@
     - ntfy
     - nextcloud
     - tautulli
-    - name: gitea
-      tags: test
+    - gitea
     - unifi-controller
     - beets
     - navidrome
+    - name: webtrees
+      tags: test
