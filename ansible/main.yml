@@ -19,7 +19,7 @@
     - tautulli
     - gitea
     - unifi-controller
-    - beets
-    - navidrome
-    - name: webtrees
+    - name: beets
       tags: test
+    - navidrome
+    - webtrees

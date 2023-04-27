@@ -1,0 +1,58 @@
+plugins: fetchart embedart scrub replaygain lastgenre chroma web inline
+directory: /music
+library: /config/musiclibrary.blb
+art_filename: cover
+threaded: yes
+original_date: no
+per_disc_numbering: yes
+
+paths:
+    default: $albumartist/$album%aunique{}/%if{$multidisc,$disc}$track - $title
+    singleton: Non-Album/$artist - $title
+    comp: Various Artists/$album%aunique{}/%if{$multidisc,$disc}$track - $title
+    albumtype_soundtrack: Soundtracks/$album/$track $title 
+item_fields:
+  multidisc: 1 if disctotal > 1 else 0 # Makes it so track number is preceded by disc number only if album contains multiple discs
+        
+import:
+    write: yes
+    copy: no
+    move: yes
+    resume: ask
+    incremental: yes
+    quiet_fallback: skip
+    timid: no
+    log: /config/beet.log
+
+lastgenre:
+    auto: yes
+    source: album
+
+embedart:
+    auto: yes
+
+fetchart:
+    auto: yes
+    
+replaygain:
+    auto: no
+
+scrub:
+    auto: yes
+
+replace:
+    '^\.': _
+    '[\x00-\x1f]': _
+    '[<>:"\?\*\|]': _
+    '[\xE8-\xEB]': e
+    '[\xEC-\xEF]': i
+    '[\xE2-\xE6]': a
+    '[\xF2-\xF6]': o
+    '[\xF8]': o
+    '\.$': _
+    '\s+$': ''
+
+web:
+    host: 0.0.0.0
+    port: 8337
+

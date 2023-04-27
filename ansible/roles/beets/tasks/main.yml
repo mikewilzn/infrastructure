@@ -22,6 +22,22 @@
     validate: docker-compose -f %s config
   become: true
 
+- name: Create data directory
+  file:
+    path: "{{ data_dir }}/{{ role_name }}"
+    state: directory
+    owner: "{{ service_user.uid }}"
+    mode: "{{ docker_compose_directory_mask }}"
+  become: true
+
+- name: Copy config file to data directory
+  copy:
+    src: config.yaml
+    dest: "{{ data_dir }}/{{ role_name }}"
+    owner: "{{ service_user.uid }}"
+    mode: "{{ docker_compose_file_mask }}"
+  become: true
+
 - name: Start docker container
   community.docker.docker_compose:
     project_src: "{{ install_directory }}/{{ role_name }}"
