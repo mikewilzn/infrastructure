@@ -5,17 +5,14 @@ services:
     container_name: "slskd"
     image: slskd/slskd
     restart: unless-stopped
-    network_mode: container:gluetun
+    network_mode: "container:gluetun"
     user: "{{ service_user.uid }}:{{ media_gid }}"
-    environment:
-      - SLSKD_SHARED_DIR=/music
-      - SLSKD_REMOTE_CONFIGURATION=True
-      - SLSKD_DOWNLOADS_DIR=/downloads
     volumes:
       - "{{ data_dir }}/{{ role_name }}:/app"
-      - "{{ data_dir }}/{{ role_name }}/downloads:/downloads"
+      - "{{ media_storage_mnt }}/data/import/music/soulseek:/downloads"
       - "{{ media_storage_mnt }}/data/media/music:/music:ro"
     labels:
       traefik.enable: true
       traefik.http.routers.slskd.rule: "Host(`soulseek.local.{{ personal_domain }}`)"
       traefik.http.routers.slskd.middlewares: lan-whitelist@file
+      traefik.http.services.slskd.loadbalancer.server.port: 5030

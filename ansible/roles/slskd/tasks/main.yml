@@ -22,6 +22,14 @@
     mode: "{{ docker_compose_directory_mask }}"
   become: true
 
+- name: Copy config file to config directory
+  template:
+    src: slskd.yml
+    dest: "{{ data_dir }}/{{ role_name }}"
+    owner: "{{ service_user.uid }}"
+  become: true
+  notify: restart service
+
 - name: Copy docker-compose file to destination
   template:
     src: docker-compose.yml

@@ -22,7 +22,7 @@ services:
       VPN_SERVICE_PROVIDER: mullvad
       WIREGUARD_PRIVATE_KEY: "{{ wireguard_private_key }}"
       WIREGUARD_ADDRESSES: "10.65.208.63/32"
-      FIREWALL_VPN_INPUT_PORTS: 61383
+      FIREWALL_VPN_INPUT_PORTS: {{ vpn_listen_port }}
       SERVER_CITIES: "Chicago IL"
       DOT: "off"
       DNS_ADRESS: 10.64.0.1

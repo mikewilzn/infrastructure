@@ -1,0 +1,4 @@
+- name: restart service
+  community.docker.docker_compose:
+    project_src: "{{ install_directory }}/{{ role_name }}"
+    restarted: true

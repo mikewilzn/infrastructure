@@ -1,0 +1,36 @@
+# debug: false
+remote_configuration: true
+
+directories:
+  downloads: /downloads
+shares:
+  directories:
+    - '/music'
+  filters:
+    - \.ini$
+    - Thumbs.db$
+    - \.DS_Store$
+  cache:
+    storage_mode: memory
+
+global:
+  upload:
+    slots: 20
+    speed_limit: 1000
+  download:
+    slots: 500
+
+soulseek:
+  description: A slskd user. https://github.com/slskd/slskd
+  username: {{ soulseek_username }}
+  password: {{ soulseek_password }}
+    #listen_port: {{ vpn_listen_port }}
+  connection:
+  timeout:
+    connect: 10000
+    inactivity: 15000
+
+web:
+  port: 5030
+  url_base: /
+  logging: false

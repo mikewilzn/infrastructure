@@ -18,6 +18,7 @@ services:
     volumes:
       - "{{ data_dir }}/{{ role_name }}:/config"
       - "{{ media_storage_mnt }}/data/media/music:/music"
+      - "{{ media_storage_mnt }}/data/import/music:/import"
     labels:
       traefik.enable: true
       traefik.http.routers.beets.rule: "Host(`beets.local.{{ personal_domain }}`)"
