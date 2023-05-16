@@ -65,5 +65,5 @@ services:
       - "./nginx.conf:/etc/nginx/conf.d/default.conf"
     labels:
       traefik.enable: true
-      traefik.http.routers.barassistant.rule: "Host(`{{ base_url }}`)"
+      traefik.http.routers.barassistant.rule: "Host(`cocktails.{{ personal_domain }}`)"
       traefik.http.services.barassistant.loadbalancer.server.port: 3000
