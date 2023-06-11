@@ -19,13 +19,15 @@ services:
       - /dev/net/tun:/dev/net/tun
     environment:
       VPN_TYPE: wireguard
-      VPN_SERVICE_PROVIDER: mullvad
+      VPN_SERVICE_PROVIDER: custom
       WIREGUARD_PRIVATE_KEY: "{{ wireguard_private_key }}"
-      WIREGUARD_ADDRESSES: "10.65.208.63/32"
-      FIREWALL_VPN_INPUT_PORTS: {{ vpn_listen_port }}
-      SERVER_CITIES: "Chicago IL"
+      WIREGUARD_PUBLIC_KEY: "1N3x3+Ojc8jONodU0eBnLth3qcmrdlrNK9tkUnVGHT4="
+      WIREGUARD_ADDRESSES: "10.13.128.85/24"
+      VPN_ENDPOINT_IP: "67.213.221.27"
+      VPN_ENDPOINT_PORT: "1443"
+      FIREWALL_VPN_INPUT_PORTS: "42382"
       DOT: "off"
-      DNS_ADRESS: 10.64.0.1
+      DNS_ADDRESS: "10.8.0.1"
       TZ: "{{ timezone }}"
       HTTPPROXY: "on"
       HTTPPROXY_USER: httpproxy

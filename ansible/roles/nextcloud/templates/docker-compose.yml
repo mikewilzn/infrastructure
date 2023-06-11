@@ -20,7 +20,7 @@ services:
       TZ: "{{ timezone }}"
     volumes:
       - "{{ data_dir }}/{{ role_name }}/config:/config"
-      - "{{ media_storage_mnt }}/nextcloud:/data"
+      - "{{ data_dir }}/{{ role_name }}/data:/data"
     labels:
       traefik.enable: true
       traefik.http.routers.nextcloud.rule: "Host(`{{ role_name }}.{{ personal_domain }}`)"

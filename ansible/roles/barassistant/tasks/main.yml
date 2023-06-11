@@ -13,6 +13,14 @@
     mode: "{{ docker_compose_directory_mask }}"
   become: true
 
+- name: Create data directory
+  file:
+    path: "{{ data_dir }}/barassistant/barassistant"
+    state: directory
+    owner: 33
+    mode: "{{ docker_compose_directory_mask }}"
+  become: true
+
 - name: Copy docker-compose file to destination
   template:
     src: docker-compose.yml

@@ -23,8 +23,6 @@ cat:
   movies.cross-seed: /data/torrents/movies
   tv: /data/torrents/tv
   tv.cross-seed: /data/torrents/tv
-  music: /data/torrents/music
-  music.cross-seed: /data/torrents/music
 
 tracker:
   digitalcore:

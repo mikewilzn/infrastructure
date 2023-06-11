@@ -6,12 +6,13 @@ networks:
 
 services:
   meilisearch:
-    image: getmeili/meilisearch:v1.0
+    image: getmeili/meilisearch:v1.1
     restart: unless-stopped
     networks:
       - default
     environment:
       MEILI_MASTER_KEY: "{{ meili_master_key }}"
+      MEILI_ENV: production
     volumes:
       - "{{ data_dir }}/barassistant/meilisearch:/meili_data"
 
@@ -39,7 +40,7 @@ services:
       REDIS_HOST: redis
       ALLOW_REGISTRATION: "True"
     volumes:
-      - "{{ data_dir }}/barassistant/barassistant:/var/www/cocktails/storage/bar-assisant"
+      - "{{ data_dir }}/barassistant/barassistant:/var/www/cocktails/storage/bar-assistant"
 
   salt-rim:
     image: barassistant/salt-rim:latest
@@ -51,8 +52,8 @@ services:
     environment:
       API_URL: "{{ base_url }}/bar"
       MEILISEARCH_URL: "{{ base_url }}/search"
-      BAR_NAME: "COCKTAILING"
-      DESCRIPTION: Mike's Drinking Time
+      BAR_NAME: "Cocktails"
+      DESCRIPTION: Why is the rum always gone?
       DEFAULT_LOCALE: "en-US"
 
   webserver:
