@@ -6,9 +6,8 @@
   roles:
     - pve-docker
     - docker-compose
-    - name: gluetun
-      tags: test
     - traefik
+    - gluetun
     - recyclarr
     - prowlarr
     - sonarr
@@ -25,3 +24,4 @@
     - webtrees
     - slskd
     - barassistant
+    - synapse
