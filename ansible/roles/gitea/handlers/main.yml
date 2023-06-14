@@ -1,0 +1,10 @@
+- name: restart sshd
+  ansible.builtin.service:
+    name: sshd
+    state: restarted
+
+- name: restart gitea
+  community.docker.docker_compose:
+    project_src: "{{ install_directory }}/gitea"
+    restarted: true
+

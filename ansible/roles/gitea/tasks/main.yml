@@ -1,0 +1,72 @@
+###### SSH Passthrough ######
+- name: Install gitea shell
+  ansible.builtin.copy:
+    src: gitea-shell
+    dest: /usr/local/bin/gitea-shell
+    mode: a+x
+  become: true
+
+- name: Append block to sshd config
+  ansible.builtin.blockinfile:
+    path: /etc/ssh/sshd_config
+    block: |
+      Match User git
+        AuthorizedKeysCommandUser git
+        AuthorizedKeysCommand /usr/bin/docker exec -i gitea /usr/local/bin/gitea keys -c /etc/gitea/app.ini -e git -u %u -t %t -k %k
+  become: true
+  notify: restart sshd
+#############################
+
+- name: Create git user
+  user:
+    name: git
+    groups: docker
+    append: true
+    shell: /usr/local/bin/gitea-shell
+    system: true
+  register: service_user
+  become: true
+
+- name: Create install directory
+  file:
+    path: "{{ install_directory }}/{{ role_name }}"
+    state: directory
+    owner: "{{ docker_user }}"
+    mode: "{{ docker_compose_directory_mask }}"
+  become: true
+
+- name: Create data and config directories
+  file:
+    path: "{{ data_dir }}/gitea/{{ item }}"
+    state: directory
+    owner: "{{ service_user.uid }}"
+    mode: "{{ docker_compose_directory_mask }}"
+  loop:
+    - data
+    - config
+  become: true
+
+- name: Install configuration file
+  template:
+    src: app.ini
+    dest: "{{ data_dir }}/gitea/config/app.ini"
+    owner: git
+    group: "{{ primary_gid }}"
+    mode: "0660"
+  notify: restart gitea
+  become: true
+
+- name: Copy docker-compose file to destination
+  template:
+    src: docker-compose.yml
+    dest: "{{ install_directory }}/{{ role_name }}/docker-compose.yml"
+    owner: "{{ docker_user }}"
+    mode: "{{ docker_compose_file_mask }}"
+    validate: docker-compose -f %s config
+  become: true
+
+- name: Start docker container
+  community.docker.docker_compose:
+    project_src: "{{ install_directory }}/{{ role_name }}"
+    pull: true
+    remove_orphans: yes

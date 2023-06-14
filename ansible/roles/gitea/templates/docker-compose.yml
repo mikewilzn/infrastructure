@@ -1,0 +1,39 @@
+version: "{{ docker_compose_version }}"
+
+networks:
+  traefik:
+    external: true
+
+services:
+  server:
+    container_name: gitea
+    image: gitea/gitea:latest-rootless
+    restart: unless-stopped
+    networks:
+      - default
+      - traefik
+    user: "{{ service_user.uid }}"
+    volumes:
+      - "{{ data_dir }}/gitea/data:/var/lib/gitea"
+      - "{{ data_dir }}/gitea/config:/etc/gitea"
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 2222:2222
+    tmpfs:
+      - /var/lib/gitea/tmp
+    labels:
+      traefik.enable: true
+      traefik.http.routers.gitea.rule: "Host(`git.{{ personal_domain }}`)"
+      traefik.http.services.gitea.loadbalancer.server.port: 3000
+
+
+  db:
+    image: postgres:14
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: gitea
+      POSTGRES_PASSWORD: gitea
+      POSTGRESS_DB: gitea
+    volumes:
+      - "{{ data_dir }}/postgres/gitea:/var/lib/postgresql/data"
