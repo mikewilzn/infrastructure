@@ -1,1 +1,0 @@
-upload_location: "{{ data_dir }}/immich/upload"

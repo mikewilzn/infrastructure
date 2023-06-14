@@ -1,0 +1,38 @@
+version: "{{ docker_compose_version }}"
+
+networks:
+  traefik:
+    external: true
+
+services:
+  searxng:
+    container_name: searxng
+    image: searxng/searxng
+    restart: unless-stopped
+    networks:
+      - traefik
+    volumes:
+      - "{{ data_dir }}/{{ role_name }}:/etc/searxng"
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+    labels:
+      traefik.enable: true
+      traefik.http.routers.searxng.rule: "Host(`search.{{ personal_domain }}`)"
+      traefik.http.routers.searxng.middlewares: lan-whitelist@file
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    command: redis-server --save "" --appendonly "no"
+    tmpfs:
+      - /var/lib/redis
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETGID
+      - SETUID
+      - DAC_OVERRIDE

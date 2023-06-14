@@ -17,11 +17,12 @@
     - ntfy
     - nextcloud
     - tautulli
-    - gitea
+      #- gitea
     - unifi-controller
     - navidrome
     - lidarr
-    - webtrees
     - slskd
     - barassistant
     - synapse
+    - name: searxng
+      tags: test
